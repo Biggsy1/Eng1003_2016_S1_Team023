@@ -2,7 +2,11 @@ List of members for team 023
 
 Ben Biggs is not the leader ha
 
+<<<<<<< HEAD
 Bray Morrow is a fresh spud
+=======
+Bray Morrow
+>>>>>>> parent of db01d8c... Fixed description of bray
 
 Jono Leibel
 
