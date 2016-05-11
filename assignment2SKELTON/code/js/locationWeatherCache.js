@@ -24,7 +24,9 @@ Date.prototype.forecastDateString = function() {
 
 
 // Code for LocationWeatherCache class and other shared code.
+// Set global variables
 var nextIDToIssue; 
+var locationCacheInstance = new LocationWeatherCache();
 
 // Prefix to use for Local Storage.  You may change this.
 var APP_PREFIX = "weatherApp";
@@ -40,7 +42,7 @@ function LocationWeatherCache()
     // Public methods:
     
     // Returns the number of locations stored in the cache.
-    //
+    // Done!!!
     this.length = function() 
     {
         return locations.length;
@@ -48,15 +50,16 @@ function LocationWeatherCache()
     
     // Returns the location object for a given index.
     // Indexes begin at zero.
-    //
+    // Done!!! ( not 100% sure though)
     this.locationAtIndex = function(index) 
     {
-        
+        // Assuming index is a number, returns whole object for a location
+        return locations[index];
     };
 
     // Given a latitude, longitude and nickname, this method saves a 
-    // new location into the cache.  It will have an empty 'forecasts'
-    // property.  Returns the index of the added location.
+    // new location into the cache (LOCATIONS ARRAY?).  It will have an empty 'forecasts'
+    // property.  Returns the index of the added location(why?).
     //
     this.addLocation = function(latitude, longitude, nickname)
     {
@@ -91,23 +94,13 @@ function LocationWeatherCache()
 
                 // Update the number well.
                 localStorage.setItem(APP_PREFIX + "idWell", nextIDToIssue);
+        
     /*
-        var location = {nickname}, {latitude}, {longitude}, {};
+        WHY IS THIS NEEDED?
+        // Return index
+        return locationCacheInstance.length;
         
-        localStorage.setItem("location", locationAsJSON);    
-            
-        
-        
-        // Return index    
-        if (localStorage.length === 0)
-            { 
-                return 0; 
-            }
-        else 
-            {
-                return localStorage.length++; 
-            }
-       */  
+    */  
         
     };
 
@@ -117,6 +110,20 @@ function LocationWeatherCache()
     // 
     this.removeLocationAtIndex = function(index)
     {
+        // WONT NEED SOON
+        localStorage.removeItem(APP_PREFIX + index);
+        
+        // Say locations = [A, B, C, D, E], we want to remove index=2 (location C)
+        
+        // Locations are shifted down in the array one by one
+        for (var i = index; i < locationCacheInstance.length; i++)
+            {
+                // A given location at index 'i' is replaced by the next location in array 
+                locationCacheInstance.locationAtIndex(i) = locationCacheInstance.locationAtIndex(i + 1);
+            }
+        // Remove the last element of the locations array
+        locations.pop();
+        
     };
 
     // This method is used by JSON.stringify() to serialise this class.
