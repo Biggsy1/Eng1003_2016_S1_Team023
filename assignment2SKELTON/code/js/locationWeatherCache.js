@@ -24,6 +24,7 @@ Date.prototype.forecastDateString = function() {
 
 
 // Code for LocationWeatherCache class and other shared code.
+var nextIDToIssue; 
 
 // Prefix to use for Local Storage.  You may change this.
 var APP_PREFIX = "weatherApp";
@@ -42,7 +43,7 @@ function LocationWeatherCache()
     //
     this.length = function() 
     {
-        // return localStorage.length;
+        return locations.length;
     };
     
     // Returns the location object for a given index.
@@ -59,10 +60,39 @@ function LocationWeatherCache()
     //
     this.addLocation = function(latitude, longitude, nickname)
     {
+        console.log("entered addLocation");
+
+                if (localStorage.getItem(APP_PREFIX + "idWell"))
+                {
+                    // Use existing number well value
+                    nextIDToIssue = Number(localStorage.getItem(APP_PREFIX + "idWell"));
+                }
+                else
+                {
+                    // Create new number well
+                    localStorage.setItem(APP_PREFIX + "idWell", "1");
+                    nextIDToIssue = 1;
+                }
+        
+                var locationToBeSet = {
+                        nickname: nickname, 
+                        latitude: latitude, 
+                        longitude: longitude,
+                        forecasts: {}
+                        };
+
+                var locationToBeSetString = JSON.stringify(locationToBeSet);
+        
+                    // Store the location
+                    localStorage.setItem(APP_PREFIX + nextIDToIssue, locationToBeSetString);
+
+                    nextIDToIssue++;
+                
+
+                // Update the number well.
+                localStorage.setItem(APP_PREFIX + "idWell", nextIDToIssue);
     /*
         var location = {nickname}, {latitude}, {longitude}, {};
-        
-        var locationAsJSON = JSON.stringify();
         
         localStorage.setItem("location", locationAsJSON);    
             
@@ -77,7 +107,8 @@ function LocationWeatherCache()
             {
                 return localStorage.length++; 
             }
-       */     
+       */  
+        
     };
 
     
