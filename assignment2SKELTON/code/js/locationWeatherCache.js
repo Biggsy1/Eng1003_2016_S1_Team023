@@ -21,10 +21,13 @@ Date.prototype.forecastDateString = function() {
 }
 
 
+
+
 // Code for LocationWeatherCache class and other shared code.
 
 // Prefix to use for Local Storage.  You may change this.
 var APP_PREFIX = "weatherApp";
+
 
 function LocationWeatherCache()
 {
@@ -37,13 +40,17 @@ function LocationWeatherCache()
     
     // Returns the number of locations stored in the cache.
     //
-    this.length = function() {
+    this.length = function() 
+    {
+        // return localStorage.length;
     };
     
     // Returns the location object for a given index.
     // Indexes begin at zero.
     //
-    this.locationAtIndex = function(index) {
+    this.locationAtIndex = function(index) 
+    {
+        
     };
 
     // Given a latitude, longitude and nickname, this method saves a 
@@ -52,13 +59,34 @@ function LocationWeatherCache()
     //
     this.addLocation = function(latitude, longitude, nickname)
     {
-    }
+    /*
+        var location = {nickname}, {latitude}, {longitude}, {};
+        
+        var locationAsJSON = JSON.stringify();
+        
+        localStorage.setItem("location", locationAsJSON);    
+            
+        
+        
+        // Return index    
+        if (localStorage.length === 0)
+            { 
+                return 0; 
+            }
+        else 
+            {
+                return localStorage.length++; 
+            }
+       */     
+    };
 
+    
+    
     // Removes the saved location at the given index.
     // 
     this.removeLocationAtIndex = function(index)
     {
-    }
+    };
 
     // This method is used by JSON.stringify() to serialise this class.
     // Note that the callbacks attribute is only meaningful while there 
@@ -105,9 +133,11 @@ function LocationWeatherCache()
     //
     function indexForLocation(latitude, longitude)
     {
-    }
+    };
 }
 
+    
+    
 // Restore the singleton locationWeatherCache from Local Storage.
 //
 function loadLocations()
