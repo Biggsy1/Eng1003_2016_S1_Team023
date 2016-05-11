@@ -1,9 +1,9 @@
-// Code for the Add Location page.
-
-
 // Set Global variables
 var map, geocoder; 
 var marker = null;
+// Globally accessible instance of the Cashe
+var locationCacheInstance = new LocationWeatherCache();
+
 
 
 // Intitalise map when the window loads, called by HTML page
@@ -98,8 +98,7 @@ function saveButtonClicked() {
                          }
               
                     // Call to the Cashe to store the location persistantly, with parametres as strings
-                    // HOW ISNT THIS A FUNCTION????
-                    LocationWeatherCache.addLocation(temporaryLatitude, temporaryLongitude, temporaryNickname);
+                    locationCacheInstance.addLocation(temporaryLatitude, temporaryLongitude, temporaryNickname);
 
                   }
             // If there is no valid GPS display an alert to the user
