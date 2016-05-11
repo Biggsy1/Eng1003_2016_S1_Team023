@@ -1,6 +1,7 @@
 // Set Global variables
 var map, geocoder; 
 var marker = null;
+
 // Globally accessible instance of the Cashe
 var locationCacheInstance = new LocationWeatherCache();
 
@@ -12,12 +13,10 @@ function initMap() {
           zoom: 4,
           center: {lat: -25.2744, lng: 133.7751}
         });
+   
+       geocoder = new google.maps.Geocoder();
     
-         geocoder = new google.maps.Geocoder();
-
       }
-
-var resultsPDO, statusPDO;
 
 // Called every time to find a new location from the user input
       function geocodeAddress() {
@@ -27,9 +26,6 @@ var resultsPDO, statusPDO;
             // Changes the centre of the map
             map.setCenter(results[0].geometry.location);
             map.setZoom(12);
-              
-              resultsPDO = results;
-              statusPDO = status;
               
             // Create a marker for the user
               if (marker === null)
