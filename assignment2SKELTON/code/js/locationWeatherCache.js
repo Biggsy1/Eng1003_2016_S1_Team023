@@ -97,23 +97,31 @@ function LocationWeatherCache()
         locations.pop();
     };
 
-    // This method is used by JSON.stringify() to serialise this class.
+    // This method is used by JSON.stringify() to serialise (convert to String) this class.
     // Note that the callbacks attribute is only meaningful while there 
     // are active web service requests and so doesn't need to be saved.
     //
     this.toJSON = function() {
+        
+        
+        
+        
     };
-
+    
     // Given a public-data-only version of the class (such as from
     // local storage), this method will initialise the current
-    // instance to match that version.
-    //
+    // instance to match that version. Source: 1003 snippets - Saving and restoring class instances
+    // [{},{}, {}]?
     this.initialiseFromPDO = function(locationWeatherCachePDO) {
-        
-        
-        
-        // to load the locations array then add to it!! See card and decks
-        
+    
+        locations = [];
+        // This fills the current instance with the local storage version of the locations array (locationWeatherCachePDO)
+        for (var i = 0; i < locationWeatherCachePDO.locations.length; i++)
+        {
+            //RHS of this may need to be CHANGED possibly - How does locationWeatherCachePDO look?
+            var location = locationWeatherCachePDO[i];
+            locations.push(location);
+        }
         
     };
 
