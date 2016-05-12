@@ -84,7 +84,7 @@ function LocationWeatherCache()
     // 
     this.removeLocationAtIndex = function(index)
     {
-        // Say locations = [A, B, C, D, E], we want to remove index=2 (location C) TESTED IN PLAYGROUND, works!!!
+        // Say locations = [A, B, C, D, E], we want to remove index=2 (location C) TESTED!
         
         // Locations are shifted down in the array one by one
         for (var i = index; i < locationCacheInstance.length; i++)
@@ -166,22 +166,18 @@ function LocationWeatherCache()
 function loadLocations()
 {
     var locationsJSON = localStorage.getItem(APP_PREFIX);
-    if (locationsJSON !== undefined)
+    if (locationsJSON === undefined)
        {
-           var locationWeatherCachePDO = JSON.parse(locationsJSON);
-           // Create a new instance of the class --DOING IT GLOBAL FIRST--
-           // var locationCacheInstance = new LocationWeatherCache();
-           // Give this new instance (that we will work with on this time entering the website) values from the Local Storage
-           locationCacheInstance.initialiseFromPDO(locationWeatherCachePDO);
-           
+           console.log("locations array undefined");
+            return [];
        };
     
-    else 
-        {
-            console.log("locations array undefined");
-            return [];
-        }
-    
+    var locationWeatherCachePDO = JSON.parse(locationsJSON);
+    // Create a new instance of the class --DOING IT GLOBAL FIRST--
+    // var locationCacheInstance = new LocationWeatherCache();
+    // Give this new instance (that we will work with on this time entering the website) values from the Local Storage
+    locationCacheInstance.initialiseFromPDO(locationWeatherCachePDO);
+              
 }
 
 // Save the singleton locationWeatherCache to Local Storage.
@@ -190,8 +186,6 @@ function loadLocations()
 // Basically needs to access what is already in local storage --> add this new location to the end --> store the locations array over the top of the old array (or delete old and save new)
 function saveLocations(latitude, longitude, nickname)
 {
-    localStorage.getItem(APP_PREFIX + "REST OF NAME???")
-    
     locationCacheInstance
     
     
