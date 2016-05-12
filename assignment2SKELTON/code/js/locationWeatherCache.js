@@ -24,8 +24,7 @@ Date.prototype.forecastDateString = function() {
 
 
 // Code for LocationWeatherCache class and other shared code.
-// Set global variables
-var nextIDToIssue; 
+// Set global variables VERY UNSURE ABOUT THIS
 var locationCacheInstance = new LocationWeatherCache();
 
 // Prefix to use for Local Storage.  You may change this.
@@ -103,9 +102,10 @@ function LocationWeatherCache()
     //
     this.toJSON = function() {
         
+        var locationsPDO = locations;
         
-        
-        
+        return locationsPDO;
+     
     };
     
     // Given a public-data-only version of the class (such as from
@@ -165,14 +165,34 @@ function LocationWeatherCache()
 //
 function loadLocations()
 {
+    var locationsJSON = localStorage.getItem(APP_PREFIX);
+    if (locationsJSON !== undefined)
+       {
+           var locationWeatherCachePDO = JSON.parse(locationsJSON);
+           // Create a new instance of the class --DOING IT GLOBAL FIRST--
+           // var locationCacheInstance = new LocationWeatherCache();
+           // Give this new instance (that we will work with on this time entering the website) values from the Local Storage
+           locationCacheInstance.initialiseFromPDO(locationWeatherCachePDO);
+           
+       };
     
+    else 
+        {
+            console.log("locations array undefined");
+            return [];
+        }
     
 }
 
 // Save the singleton locationWeatherCache to Local Storage.
 //
-function saveLocations()
+// This function is called each time to "update" the locations array in Local Storage. 
+// Basically needs to access what is already in local storage --> add this new location to the end --> store the locations array over the top of the old array (or delete old and save new)
+function saveLocations(latitude, longitude, nickname)
 {
+    localStorage.getItem(APP_PREFIX + "REST OF NAME???")
+    
+    locationCacheInstance
     
     
 }
