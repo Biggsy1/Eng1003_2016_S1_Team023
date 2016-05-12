@@ -58,25 +58,14 @@ function LocationWeatherCache()
     };
 
     // Given a latitude, longitude and nickname, this method saves a 
-    // new location into the cache (LOCATIONS ARRAY?).  It will have an empty 'forecasts'
-    // property.  Returns the index of the added location(why?).
+    // new location into the cache (locations array).  It will have an empty 'forecasts'
+    // property.  Returns the index of the added location.
     //
     this.addLocation = function(latitude, longitude, nickname)
     {
         console.log("entered addLocation");
-
-                if (localStorage.getItem(APP_PREFIX + "idWell"))
-                {
-                    // Use existing number well value
-                    nextIDToIssue = Number(localStorage.getItem(APP_PREFIX + "idWell"));
-                }
-                else
-                {
-                    // Create new number well
-                    localStorage.setItem(APP_PREFIX + "idWell", "1");
-                    nextIDToIssue = 1;
-                }
-        
+                
+                // Objectifys the location
                 var locationToBeSet = {
                         nickname: nickname, 
                         latitude: latitude, 
@@ -84,36 +73,19 @@ function LocationWeatherCache()
                         forecasts: {}
                         };
 
-                var locationToBeSetString = JSON.stringify(locationToBeSet);
-        
-                    // Store the location
-                    localStorage.setItem(APP_PREFIX + nextIDToIssue, locationToBeSetString);
-
-                    nextIDToIssue++;
-                
-
-                // Update the number well.
-                localStorage.setItem(APP_PREFIX + "idWell", nextIDToIssue);
-        
-    /*
-        WHY IS THIS NEEDED?
-        // Return index
-        return locationCacheInstance.length;
-        
-    */  
-        
+                // Store place (as object) in locations array
+                locations.push(locationToBeSet);
+    
+                // Return index of added location
+                return locations.length - 1; 
     };
 
-    
     
     // Removes the saved location at the given index.
     // 
     this.removeLocationAtIndex = function(index)
     {
-        // WONT NEED SOON
-        localStorage.removeItem(APP_PREFIX + index);
-        
-        // Say locations = [A, B, C, D, E], we want to remove index=2 (location C)
+        // Say locations = [A, B, C, D, E], we want to remove index=2 (location C) TESTED IN PLAYGROUND, works!!!
         
         // Locations are shifted down in the array one by one
         for (var i = index; i < locationCacheInstance.length; i++)
@@ -123,7 +95,6 @@ function LocationWeatherCache()
             }
         // Remove the last element of the locations array
         locations.pop();
-        
     };
 
     // This method is used by JSON.stringify() to serialise this class.
@@ -138,6 +109,12 @@ function LocationWeatherCache()
     // instance to match that version.
     //
     this.initialiseFromPDO = function(locationWeatherCachePDO) {
+        
+        
+        
+        // to load the locations array then add to it!! See card and decks
+        
+        
     };
 
     // Request weather for the location at the given index for the
@@ -180,11 +157,49 @@ function LocationWeatherCache()
 //
 function loadLocations()
 {
+    
+    
 }
 
 // Save the singleton locationWeatherCache to Local Storage.
 //
 function saveLocations()
 {
+    
+    
 }
 
+
+
+
+/* Saves location straight to LS 
+if (localStorage.getItem(APP_PREFIX + "idWell"))
+                {
+                    // Use existing number well value
+                    nextIDToIssue = Number(localStorage.getItem(APP_PREFIX + "idWell"));
+                }
+                else
+                {
+                    // Create new number well
+                    localStorage.setItem(APP_PREFIX + "idWell", "1");
+                    nextIDToIssue = 1;
+                }
+        
+                var locationToBeSet = {
+                        nickname: nickname, 
+                        latitude: latitude, 
+                        longitude: longitude,
+                        forecasts: {}
+                        };
+
+                var locationToBeSetString = JSON.stringify(locationToBeSet);
+        
+                    // Store the location
+                    localStorage.setItem(APP_PREFIX + nextIDToIssue, locationToBeSetString);
+
+                    nextIDToIssue++;
+                
+
+                // Update the number well.
+                localStorage.setItem(APP_PREFIX + "idWell", nextIDToIssue);
+*/
