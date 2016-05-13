@@ -94,7 +94,7 @@ function saveButtonClicked() {
                          }
               
                     // Call to the Cashe to store the location persistantly, with parametres as strings
-                    locationCacheInstance.addLocation(temporaryLatitude, temporaryLongitude, temporaryNickname);
+                    saveLocations(temporaryLatitude, temporaryLongitude, temporaryNickname);
 
                   }
             // If there is no valid GPS display an alert to the user
