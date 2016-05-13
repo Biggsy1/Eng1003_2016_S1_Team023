@@ -115,8 +115,8 @@ function LocationWeatherCache()
     this.initialiseFromPDO = function(locationWeatherCachePDO) {
     
         locations = [];
-        // This fills the current instance with the local storage version of the locations array (locationWeatherCachePDO)
-        for (var i = 0; i < locationWeatherCachePDO.locations.length; i++)
+        // This fills the current instance with the local storage version of the locations array (locationWeatherCachePDO) //    Unsure about the ".locations" inbw PDO and length
+        for (var i = 0; i < locationWeatherCachePDO.length; i++)
         {
             //RHS of this may need to be CHANGED possibly - How does locationWeatherCachePDO look?
             var location = locationWeatherCachePDO[i];
@@ -186,7 +186,7 @@ function loadLocations()
 // Basically needs to access what is already in local storage --> add this new location to the end --> store the locations array over the top of the old array (or delete old and save new)
 function saveLocations(latitude, longitude, nickname)
 {
-    locationCacheInstance.addLocation(latitude, longitude, nickname);
+    var locationIndex = locationCacheInstance.addLocation(latitude, longitude, nickname);
     
     var arrayToBeSavedToLocalStorage = locationCacheInstance.toJSON();
     
@@ -198,6 +198,9 @@ function saveLocations(latitude, longitude, nickname)
     // locationCacheInstance.Addlocation of this info
     // Save the locations array to local storage overwritting or delete and add a new one
     
+    // ADDED THIS!!!!
+    var locationIndexString = JSON.stringify(locationIndex);
+    updateMainList(locationIndexString, arrayToBeSavedToLocalStorage);
     
     // Should Return the user to the main page potentially??
 }
