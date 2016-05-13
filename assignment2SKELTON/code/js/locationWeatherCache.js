@@ -186,9 +186,20 @@ function loadLocations()
 // Basically needs to access what is already in local storage --> add this new location to the end --> store the locations array over the top of the old array (or delete old and save new)
 function saveLocations(latitude, longitude, nickname)
 {
-    locationCacheInstance
+    locationCacheInstance.addLocation(latitude, longitude, nickname);
+    
+    var arrayToBeSavedToLocalStorage = locationCacheInstance.toJSON();
+    
+    var arrayToBeSavedToLocalStorageString = JSON.stringify(arrayToBeSavedToLocalStorage);
+    
+    localStorage.setItem(APP_PREFIX, arrayToBeSavedToLocalStorageString);
+    
+    // Should recieve info from Addlocationspage
+    // locationCacheInstance.Addlocation of this info
+    // Save the locations array to local storage overwritting or delete and add a new one
     
     
+    // Should Return the user to the main page potentially??
 }
 
 
