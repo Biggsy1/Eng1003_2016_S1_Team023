@@ -79,14 +79,13 @@ function saveButtonClicked() {
                     var lngSplitOne = latlngStr[1].split(":", 2); 
                     var lngSplitTwo = lngSplitOne[1].split("}", 2);                    
 
-                    temporaryLatitude = latSplit[1];
-                    temporaryLongitude = lngSplitTwo[0];             
+                    temporaryLatitude = Number(latSplit[1]);
+                    temporaryLongitude = Number(lngSplitTwo[0]);             
 
                      // If there is no nickname given, use the actual address name
                      if (document.getElementById("field2").value === "")
                         { 
-                            var formattedAddressString = JSON.stringify(results[0].formatted_address);
-                            temporaryNickname = formattedAddressString;
+                            temporaryNickname = results[0].formatted_address;
                         } 
                      else
                          {
