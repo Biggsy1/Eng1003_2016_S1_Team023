@@ -16,7 +16,7 @@ function viewLocation(locationName)
 
 
     // ADDED THIS!!!!
-    updateMainList();
+   updateMainList();
     
 /*
     window.location = "viewlocation.html";
@@ -71,7 +71,19 @@ function initialiseMap(locationsArrayToInitialiseMap, Index)
 function updateMainList()
 {
     var locationsArray = loadLocations();
+    var listHTML = "";
+    var listOfLocations = document.getElementById("locationList"); 
     
+    
+    for (var i=0; i < locationsArray.length; i++)
+            {
+                listHTML += "<li class=\"mdl-list__item mdl-list__item--two-line\" onclick=\"viewLocation("+i+");> <span class=\"mdl-list__item-primary-content\"> <img class=\"mdl-list__item-icon\" id=\"icon"+i+"\" src=\"images/loading.png\" class=\"list-avatar\" /> <span>"+locationsArray[i].nickname+"</span><span id=\"weather"+i+"\" class=\"mdl-list__item-sub-title\"> Weather Summary </span> </span> </li>"      
+            }
+    
+        // Insert the list view elements into the locations list.
+        listOfLocations.innerHTML = listHTML;
+    
+    /*
     for (i = 0; i < locationsArray.length; i++){
     
     var tempLiNode, tempPrimarySpanNode;
@@ -106,13 +118,13 @@ function updateMainList()
     tempSummarySpanNode.setAttribute("id", "weather" + i);
     tempSummarySpanNode.setAttribute("class", "mdl-list__item-sub-title");
     
-    /*
+    
     // Adds the node in the brackets inside of the node at the start
     tempLiNode.add(tempPrimarySpanNode, null);
     tempPrimarySpanNode.add(tempImgNode, null);
     tempPrimarySpanNode.add(tempHeadingSpanNode, null);
     tempPrimarySpanNode.add(tempSummarySpanNode, null);
-    */
+    
     
     // Adds the 'tempLiNode' to the end of the listOfLocations (ul part)
     listOfLocations.appendChild(tempLiNode, null);
@@ -129,7 +141,7 @@ function updateMainList()
     primarySpanNode.appendChild(tempHeadingSpanNode, null);
     primarySpanNode.appendChild(tempSummarySpanNode, null);
 
-    }
+    }*/
 };
 
 
