@@ -139,11 +139,11 @@ function LocationWeatherCache()
         
         loadLocations();
         
-        var time = date.forecastDateString();
+        // var time = date.forecastDateString();
         
         var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
         var script = document.createElement('script');
-        script.src = URL + locations[index].latitude + "," + locations[index].longitude + "," + time + "?callback="+callback;
+        script.src = URL + locations[index].latitude + "," + locations[index].longitude + "," + date + "?callback="+callback;
         document.body.appendChild(script);
     
     };
@@ -164,37 +164,33 @@ function LocationWeatherCache()
         // 1) Main Page use: To get Weather Summary and Icon
         if (document.getElementById("locationList") !== null){
             
-            var temperatureMin = response.daily.temperatureMin;//Access to weather temperatureMin
-            var temperatureMax = response.daily.temperatureMax;//Access to weather temperatureMax
+            var temperatureMin = response.daily.data[0].temperatureMin;//Access to weather temperatureMin
+            var temperatureMax = response.daily.data[0].temperatureMax;//Access to weather temperatureMax
             // Updates the 'Summary' on Index page
-            document.getElementById("weather"+index).nodeValue = "Min: " + temperatureMin + ", Max: " + temperatureMax;
+            document.getElementById("weather"+index).innerHTML = "Min: " + temperatureMin + ", Max: " + temperatureMax;
             
             // eg. icon = clear-day
-            var icon = response.daily.icon;
+            var icon = response.daily.data[0].icon;
             document.getElementById("icon"+index).setAttribute("src", "images/"+icon+".png")
             
         }
         // 2) View Location Page use: To get specific Weather details
         else if (document.getElementById("weatherheading") !== null){
             
-            // response.daily.DATA[].humidity!!!!!!
+            var summary = response.daily.data[0].summary//Access to weather summary
+            document.getElementById("summary").innerHTML = "Summary: " + summary;
             
+            var temperatureMin = response.daily.data[0].temperatureMin//Access to weather temperatureMin
+            document.getElementById("minimumTemperature").innerHTML = "Minimum Temperature: " + temperatureMin;
             
+            var temperatureMax = response.daily.data[0].temperatureMax//Access to weather temperatureMax
+            document.getElementById("maximumTemperature").innerHTML = "Maximum Temperature: " + temperatureMax;
             
-            var summary = response.daily.summary//Access to weather summary
-            document.getElementById("summary").nodeValue = "Summary: " + summary;
+            var humidity = response.daily.data[0].humidity//Access to weather humidity
+            document.getElementById("humidity").innerHTML = "Humidity: " + humidity;
             
-            var temperatureMin = response.daily.temperatureMin//Access to weather temperatureMin
-            document.getElementById("minimumTemperature").nodeValue = "Minimum Temperature: " + temperatureMin;
-            
-            var temperatureMax = response.daily.temperatureMax//Access to weather temperatureMax
-            document.getElementById("maximumTemperature").nodeValue = "Maximum Temperature: " + temperatureMax;
-            
-            var humidity = response.daily.humidity//Access to weather humidity
-            document.getElementById("humidity").nodeValue = "Humidity: " + humidity;
-            
-            var windSpeed = response.daily.windSpeed //Access to weather windSpeed
-            document.getElementById("windSpeed").nodeValue = "Wind Speed is: " + windSpeed;
+            var windSpeed = response.daily.data[0].windSpeed //Access to weather windSpeed
+            document.getElementById("windSpeed").innerHTML = "Wind Speed is: " + windSpeed;
             
         }
      
