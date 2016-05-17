@@ -39,8 +39,12 @@ function loadPageContent(){
     // Use the location name for header bar title.
     document.getElementById("headerBarTitle").textContent = locationsArray[locationIndex].nickname;
 
-    // Call the Weather API for today's date!!
     
+    // Call the Weather API for today's date!!
+    var date = new Date();
+    var todayForecastData = date.forecastDateString();
+    
+    locationCacheInstance.getWeatherAtIndexForDate(locationIndex, todayForecastData, "locationCacheInstance.weatherResponse");
 };
 
  
