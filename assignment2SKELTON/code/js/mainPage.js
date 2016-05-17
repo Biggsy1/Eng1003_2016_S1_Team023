@@ -34,20 +34,26 @@ function updateWeatherSummaries(){
     locationCacheInstance.getWeatherAtIndexForDate(i, todayForecastData, "locationCacheInstance.weatherResponse");
         
     }
-
 }
-    
+
+
+// View location cant pass the information to the next page! Therefore check the skeleton code - locally store the Location Index and then look for that in LS on the new page
+
+
+function viewLocation(locationIndex)
+{
+    // Save the desired location to local storage
+    localStorage.setItem(APP_PREFIX + "-selectedLocation", locationIndex); 
+    // And load the view location page.
+    location.href = 'viewlocation.html';
+}
+
 /*
-    window.location = "viewlocation.html";
-    viewLocation(locationIndex); 
-*/
-
-
-
-
+// NEEDS TO send to THE VIEW LOCATION HTML
 function viewLocation(locationIndex){
     
-    // HREF HERE!!!!!!!!!!
+    
+    window.location = "viewlocation.html";
     
     var locationsArray = loadLocations(); 
 
@@ -57,9 +63,9 @@ function viewLocation(locationIndex){
     initialiseMap(locationsArray, locationIndex);
 
 };
-
-
-
+*/
+/*
+// Not suppose to be from the INDEX HTML
 function initialiseMap(locationsArrayToInitialiseMap, Index)
 {
     // Display a map, centred on their location.
@@ -81,13 +87,14 @@ function initialiseMap(locationsArrayToInitialiseMap, Index)
     infowindow.setContent(locationsArrayToInitialiseMap[Index].nickname);
     infowindow.open(map, marker);
 }
- 
+ */
 // Source: 6.2 Alexandria Material
 // Needs to add the location to the main page when the location is stored in local Storage
 // May require a window.onload to update their blank page when they initially load???
 
 // window.onload = ready;
-                 
+       
+
    // Needs access to the locations array!
 function updateMainList()
 {
@@ -103,66 +110,6 @@ function updateMainList()
     
         // Insert the list view elements into the locations list.
         listOfLocations.innerHTML = listHTML;
-    
-    /*
-    for (i = 0; i < locationsArray.length; i++){
-    
-    var tempLiNode, tempPrimarySpanNode;
-    var tempImgNode, tempHeadingSpanNode, tempSummarySpanNode;
-    var listOfLocations = document.getElementById("locationList");
-    
-    // Create an individual 'li' node to be a row for the location
-    tempLiNode = document.createElement("li");
-    tempLiNode.setAttribute("class", "mdl-list__item mdl-list__item--two-line");
-    tempLiNode.setAttribute("id", "location" + i);
-    tempLiNode.setAttribute("onclick", "viewLocation(" + i + ");");    
-    
-    // Create main span node for the primary content
-    tempPrimarySpanNode = document.createElement("span");
-    tempPrimarySpanNode.setAttribute("class", "mdl-list__item-primary-content");
-    tempPrimarySpanNode.setAttribute("id", "mainSpan" + i);
-    
-    // Create image node
-    tempImgNode = document.createElement("img");
-    tempImgNode.setAttribute("class", "mdl-list__item-icon");
-    tempImgNode.setAttribute("id", "icon" + i);
-            // Src will need to change!!!
-    tempImgNode.setAttribute("src", "images/loading.png");
-    tempImgNode.setAttribute("class", "list-avatar");
-    
-    // Create Span node for 'heading'
-    tempHeadingSpanNode = document.createElement("span")
-    tempHeadingSpanNode.textContent = locationsArray[i].nickname;
-    
-    // Create span node for the weather summary
-    tempSummarySpanNode = document.createElement("span");
-    tempSummarySpanNode.setAttribute("id", "weather" + i);
-    tempSummarySpanNode.setAttribute("class", "mdl-list__item-sub-title");
-    
-    
-    // Adds the node in the brackets inside of the node at the start
-    tempLiNode.add(tempPrimarySpanNode, null);
-    tempPrimarySpanNode.add(tempImgNode, null);
-    tempPrimarySpanNode.add(tempHeadingSpanNode, null);
-    tempPrimarySpanNode.add(tempSummarySpanNode, null);
-    
-    
-    // Adds the 'tempLiNode' to the end of the listOfLocations (ul part)
-    listOfLocations.appendChild(tempLiNode, null);
-    
-    // Makes a reference to this newly created li node
-    var liNode = document.getElementById("location" + i);
-    // Adds directly to this node
-    liNode.appendChild(tempPrimarySpanNode, null);
-    
-    // Makes a reference to this newly created primary span node
-    var primarySpanNode = document.getElementById("mainSpan" + i);
-    // Adds directly to this node
-    primarySpanNode.appendChild(tempImgNode, null);
-    primarySpanNode.appendChild(tempHeadingSpanNode, null);
-    primarySpanNode.appendChild(tempSummarySpanNode, null);
-
-    }*/
 };
 
 
