@@ -132,7 +132,7 @@ function LocationWeatherCache()
     // The callback function should have two parameters.  The first
     // will be the index of the location and the second will be the 
     // weather object for that location.
-    // 
+    
     // Two ways it needs to be called: 1) from the main page to get today's weather summary 2) from the view location page for all the 30 day history
     //
     this.getWeatherAtIndexForDate = function(index, date, callback) {
@@ -155,9 +155,9 @@ function LocationWeatherCache()
     // weather request.
     //
     this.weatherResponse = function(response) {
-        // Will need an if loop to check if forecast is stored in local stoage already, if not call the weather api
+        // Will need an if loop to check if forecast is stored in local stoage already, if not call the weather api! (otherwise it will frequently call on the Weather API)
 
-        
+        // May need to send with less decimal places??
         // Get index of the location
         var index = indexForLocation(response.latitude, response.longitude);
         
@@ -178,6 +178,8 @@ function LocationWeatherCache()
         else if (document.getElementById("weatherheading") !== null){
             
             // response.daily.DATA[].humidity!!!!!!
+            
+            
             
             var summary = response.daily.summary//Access to weather summary
             document.getElementById("summary").nodeValue = "Summary: " + summary;
