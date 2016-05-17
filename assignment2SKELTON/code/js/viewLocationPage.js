@@ -1,10 +1,10 @@
-// Code for the View Location page.
-
-// This is sample code to demonstrate navigation.
-// You need not use it for final app.
 
 
-var locationIndexOfCurrentLocation;
+var map, marker;
+
+loadPageContent()
+
+
 // Index is sent from clicking on the Index page or straight after the save locations button
 
 // Calls the weather API for a new date
@@ -20,50 +20,51 @@ function sliderMoved(sliderValue){
 
     msecSince1970 += -86400000*numberOfDays;
     date.setTime(msecSince1970);
+    
+    // Need to have access to [YYYY]-[MM]-[DD] and change the Heading Title!
     // Unsure how this date will go in the function!!!
     
-    // this new date is sent to the getWeatherAtIndexForDate 
     
+    // this new date is sent to the getWeatherAtIndexForDate 
     locationCacheInstance.getWeatherAtIndexForDate(locationIndexOfCurrentLocation, date, "locationCacheInstance.weatherResponse");
     
 }
 
 
-
-function viewLocation(locationIndex){
+function loadPageContent(){
     
-    locationIndexOfCurrentLocation = locationIndex;
+    locationIndex = localStorage.getItem(APP_PREFIX + "-selectedLocation");
     var locationsArray = loadLocations(); 
     
     // Use the location name for header bar title.
     document.getElementById("headerBarTitle").textContent = locationsArray[locationIndex].nickname;
 
-    initialiseMap(locationsArray, locationIndex);
-
+    // Call the Weather API for today's date!!
+    
 };
 
-
-
-function initialiseMap(locationsArrayToInitialiseMap, Index)
+ 
+function initMap()
 {
-    // Display a map, centred on their location.
-    var usersChosenLocation = {lat: locationsArrayToInitialiseMap[Index].latitude, lng: locationsArrayToInitialiseMap[Index].longitude};
+    // Get Locations and Index
+    locationsArray = loadLocations();
+    Index = localStorage.getItem(APP_PREFIX + "-selectedLocation");
+    
+    // Display a map, centred on User's chosen position.
+    var usersChosenPosition = {lat: locationsArray[Index].latitude, lng: locationsArray[Index].longitude};
     var map = new google.maps.Map(document.getElementById("map"), {
-            // CAREFUL with zoom!!!
             zoom: 12,
-            center: usersChosenLocation
+            center: usersChosenPosition
     });
  
-    
     // Display an overlay with a location pin and label.
-    var usersChosenLocation = {lat: locationsArrayToInitialiseMap[Index].latitude, lng: locationsArrayToInitialiseMap[Index].longitude};
+    var markerPosition = {lat: locationsArray[Index].latitude, lng: locationsArray[Index].longitude};
     var infowindow = new google.maps.InfoWindow;
     var marker = new google.maps.Marker({
-            position: usersChosenLocation,
+            position: markerPosition,
             map: map
     });
-    infowindow.setContent(locationsArrayToInitialiseMap[Index].nickname);
+    infowindow.setContent(locationsArray[Index].nickname);
     infowindow.open(map, marker);
 }
- 
  
