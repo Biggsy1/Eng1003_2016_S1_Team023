@@ -166,8 +166,10 @@ function LocationWeatherCache()
             
             var temperatureMin = response.daily.data[0].temperatureMin;//Access to weather temperatureMin
             var temperatureMax = response.daily.data[0].temperatureMax;//Access to weather temperatureMax
+            var temperatureMinInCelsius = temperatureMin.toFixed(2) - 32 + " °C";
+            var temperatureMaxInCelsius = temperatureMax.toFixed(2) - 32 + " °C";
             // Updates the 'Summary' on Index page
-            document.getElementById("weather"+index).innerHTML = "Min: " + temperatureMin + ", Max: " + temperatureMax;
+            document.getElementById("weather"+index).innerHTML = "Min: " + temperatureMinInCelsius + ", Max: " + temperatureMaxInCelsius;
             
             // eg. icon = clear-day
             var icon = response.daily.data[0].icon;
@@ -181,16 +183,20 @@ function LocationWeatherCache()
             document.getElementById("summary").innerHTML = "Summary: " + summary;
             
             var temperatureMin = response.daily.data[0].temperatureMin//Access to weather temperatureMin
-            document.getElementById("minimumTemperature").innerHTML = "Minimum Temperature: " + temperatureMin;
+            var temperatureMinInCelsius = temperatureMin.toFixed(2) - 32 + " °C";
+            document.getElementById("minimumTemperature").innerHTML = "Minimum Temperature: " + temperatureMinInCelsius;
             
             var temperatureMax = response.daily.data[0].temperatureMax//Access to weather temperatureMax
-            document.getElementById("maximumTemperature").innerHTML = "Maximum Temperature: " + temperatureMax;
+            var temperatureMaxInCelsius = temperatureMax.toFixed(2) - 32 + " °C";
+            document.getElementById("maximumTemperature").innerHTML = "Maximum Temperature: " + temperatureMaxInCelsius;
             
             var humidity = response.daily.data[0].humidity//Access to weather humidity
-            document.getElementById("humidity").innerHTML = "Humidity: " + humidity;
+            var humidityAsPercent = humidity.toFixed(1)*100 + " %";
+            document.getElementById("humidity").innerHTML = "Humidity: " + humidityAsPercent;
             
             var windSpeed = response.daily.data[0].windSpeed //Access to weather windSpeed
-            document.getElementById("windSpeed").innerHTML = "Wind Speed is: " + windSpeed;
+            var windSpeedInKmperh = windSpeed.toFixed(1)*1.60934 + " km/h"
+            document.getElementById("windSpeed").innerHTML = "Wind Speed is: " + windSpeedInKmperh;
             
         }
      
