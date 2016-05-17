@@ -139,9 +139,11 @@ function LocationWeatherCache()
         
         loadLocations();
         
+        var time = date.forecastDateString();
+        
         var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
         var script = document.createElement('script');
-        script.src = url + locations[index].latitude + "," + locations[index].longitude + "," + time + "?callback="+callback;
+        script.src = URL + locations[index].latitude + "," + locations[index].longitude + "," + time + "?callback="+callback;
         document.body.appendChild(script);
     
     };
@@ -153,58 +155,47 @@ function LocationWeatherCache()
     // weather request.
     //
     this.weatherResponse = function(response) {
+        // Will need an if loop to check if forecast is stored in local stoage already, if not call the weather api
+
         
-        
+        // Get index of the location
+        var index = indexForLocation(response.latitude, response.longitude);
         
         // 1) Main Page use: To get Weather Summary and Icon
-        // ACCESS THE LOCATION INDEX?????
         if (document.getElementById("locationList") !== null){
             
-            // Basically do what is occuring below
+            var temperatureMin = response.daily.temperatureMin;//Access to weather temperatureMin
+            var temperatureMax = response.daily.temperatureMax;//Access to weather temperatureMax
+            // Updates the 'Summary' on Index page
+            document.getElementById("weather"+index).nodeValue = "Min: " + temperatureMin + ", Max: " + temperatureMax;
             
+            // eg. icon = clear-day
+            var icon = response.daily.icon;
+            document.getElementById("icon"+index).setAttribute("src", "images/"+icon+".png")
             
         }
         // 2) View Location Page use: To get specific Weather details
         else if (document.getElementById("weatherheading") !== null){
             
-            var summary = response.//Access to weather summary
+            // response.daily.DATA[].humidity!!!!!!
             
-            
+            var summary = response.daily.summary//Access to weather summary
             document.getElementById("summary").nodeValue = "Summary: " + summary;
             
-            // Repeat above for other features PLUS 'heading date'
+            var temperatureMin = response.daily.temperatureMin//Access to weather temperatureMin
+            document.getElementById("minimumTemperature").nodeValue = "Minimum Temperature: " + temperatureMin;
+            
+            var temperatureMax = response.daily.temperatureMax//Access to weather temperatureMax
+            document.getElementById("maximumTemperature").nodeValue = "Maximum Temperature: " + temperatureMax;
+            
+            var humidity = response.daily.humidity//Access to weather humidity
+            document.getElementById("humidity").nodeValue = "Humidity: " + humidity;
+            
+            var windSpeed = response.daily.windSpeed //Access to weather windSpeed
+            document.getElementById("windSpeed").nodeValue = "Wind Speed is: " + windSpeed;
             
         }
-        
-        
-        
- /*       
-        ---------------------
-        routes = routesArray;
-        
-        // List view section heading: Flight list
-        var listHTML = "";
-
-        //   PART 1:
-        // ADD CODE HERE TO ITERATE OVER ROUTES ARRAY AND CREATE
-        // LIST ITEMS FOR EACH ROUTE (AS BELOW)
-       
-        
-        // HTML Format of list item is:
-        //   <tr> <td onmousedown=\"listRowTapped("+i+")\" class=\"full-width mdl-data-table__cell--non-numeric\">"[SOURCE AIRPORT] -> [DEST AIRPORT]
-        //   <div class="subtitle">[AIRLINE CODE], Stops: [STOPS]</div></td></tr>
-        //
-        
-        for (var i=0; i < routes.length; i++)
-            {
-       listHTML += "<tr> <td onmousedown=\"listRowTapped("+i+")\" class=\"full-width mdl-data-table__cell--non-numeric\">" + routes[i].sourceAirport + " &rarr; " + routes[i].destinationAirport;
-       listHTML += "<div class=\"subtitle\">" + routes[i].airline + ", Stops: " + routes[i].stops +"</div></td></tr>";
-            }
-
-        // Insert the list view elements into the flights list.
-        flightsListElement.innerHTML = listHTML;
- */       
-        
+     
     };
 
     // Private methods:
