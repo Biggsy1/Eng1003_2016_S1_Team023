@@ -24,7 +24,7 @@ Date.prototype.forecastDateString = function() {
 
 
 // Code for LocationWeatherCache class and other shared code.
-// Set global variables VERY UNSURE ABOUT THIS
+// Set global variables
 var locationCacheInstance = new LocationWeatherCache();
 
 // Prefix to use for Local Storage.  You may change this.
@@ -62,8 +62,6 @@ function LocationWeatherCache()
     //
     this.addLocation = function(latitude, longitude, nickname)
     {
-        console.log("entered addLocation");
-                
                 // Objectifys the location
                 var locationToBeSet = {
                         nickname: nickname, 
@@ -135,14 +133,17 @@ function LocationWeatherCache()
     // will be the index of the location and the second will be the 
     // weather object for that location.
     // 
+    // Two ways it needs to be called: 1) from the main page to get today's weather summary 2) from the view location page for all the 30 day history
+    //
     this.getWeatherAtIndexForDate = function(index, date, callback) {
         
+        loadLocations();
         
-        
-        var date = new Date();
-        var todaySimpleData = date.simpleDateString();
-        
-        
+        var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
+        var script = document.createElement('script');
+        script.src = url + locations[index].latitude + "," + locations[index].longitude + "," + time + "?callback="+callback;
+        document.body.appendChild(script);
+    
     };
     
     // This is a callback function passed to forecast.io API calls.
@@ -152,6 +153,58 @@ function LocationWeatherCache()
     // weather request.
     //
     this.weatherResponse = function(response) {
+        
+        
+        
+        // 1) Main Page use: To get Weather Summary and Icon
+        // ACCESS THE LOCATION INDEX?????
+        if (document.getElementById("locationList") !== null){
+            
+            // Basically do what is occuring below
+            
+            
+        }
+        // 2) View Location Page use: To get specific Weather details
+        else if (document.getElementById("weatherheading") !== null){
+            
+            var summary = response.//Access to weather summary
+            
+            
+            document.getElementById("summary").nodeValue = "Summary: " + summary;
+            
+            // Repeat above for other features PLUS 'heading date'
+            
+        }
+        
+        
+        
+ /*       
+        ---------------------
+        routes = routesArray;
+        
+        // List view section heading: Flight list
+        var listHTML = "";
+
+        //   PART 1:
+        // ADD CODE HERE TO ITERATE OVER ROUTES ARRAY AND CREATE
+        // LIST ITEMS FOR EACH ROUTE (AS BELOW)
+       
+        
+        // HTML Format of list item is:
+        //   <tr> <td onmousedown=\"listRowTapped("+i+")\" class=\"full-width mdl-data-table__cell--non-numeric\">"[SOURCE AIRPORT] -> [DEST AIRPORT]
+        //   <div class="subtitle">[AIRLINE CODE], Stops: [STOPS]</div></td></tr>
+        //
+        
+        for (var i=0; i < routes.length; i++)
+            {
+       listHTML += "<tr> <td onmousedown=\"listRowTapped("+i+")\" class=\"full-width mdl-data-table__cell--non-numeric\">" + routes[i].sourceAirport + " &rarr; " + routes[i].destinationAirport;
+       listHTML += "<div class=\"subtitle\">" + routes[i].airline + ", Stops: " + routes[i].stops +"</div></td></tr>";
+            }
+
+        // Insert the list view elements into the flights list.
+        flightsListElement.innerHTML = listHTML;
+ */       
+        
     };
 
     // Private methods:
@@ -163,6 +216,17 @@ function LocationWeatherCache()
     //
     function indexForLocation(latitude, longitude)
     {
+        // loadLocations(); ?????
+        
+        for (var i = 0; i < locations.length; i++)  //each locations in my array 
+            {
+               if (locations[i].latitude === latitude && locations[i].longitude === longitude){
+                    
+                   return i;
+             }
+            }
+            
+        return -1;    
     };
 }
 
@@ -194,11 +258,9 @@ function loadLocations()
 // Basically needs to access what is already in local storage --> add this new location to the end --> store the locations array over the top of the old array (or delete old and save new)
 function saveLocations(latitude, longitude, nickname)
 {
-   loadLocations();
+    loadLocations();
     
-   var locationIndex = locationCacheInstance.addLocation(latitude, longitude, nickname);
-    
-    //var arrayToBeSavedToLocalStorage = locationCacheInstance.toJSON();
+    var locationIndex = locationCacheInstance.addLocation(latitude, longitude, nickname);
     
     var arrayToBeSavedToLocalStorageString = JSON.stringify(locationCacheInstance);
     
@@ -207,17 +269,17 @@ function saveLocations(latitude, longitude, nickname)
     // Should recieve info from Addlocationspage
     // locationCacheInstance.Addlocation of this info
     // Save the locations array to local storage overwritting or delete and add a new one
-    console.log("entered SAVE LOCVATION");
+    console.log("SAVED LOCVATION");
     // Load the Index page.
     window.location = "index.html";
-    
+    /*
     // ADDED THIS!!!!
     var locationIndexString = JSON.stringify(locationIndex);
     updateMainList(locationIndexString, arrayToBeSavedToLocalStorage);
     
     window.location = "viewlocation.html";
     viewLocation(locationIndex); 
-    
+    */
     // Should Return the user to the main page potentially??
 }
 
