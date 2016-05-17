@@ -42,7 +42,11 @@ function loadPageContent(){
     
     // Call the Weather API for today's date!!
     var date = new Date();
+    var todaySimpleDate = date.simpleDateString();
     var todayForecastData = date.forecastDateString();
+    
+    // Updates the Heading
+    document.getElementById("weatherheading").textContent = "Weather " + todaySimpleDate;
     
     locationCacheInstance.getWeatherAtIndexForDate(locationIndex, todayForecastData, "locationCacheInstance.weatherResponse");
 };
