@@ -166,10 +166,10 @@ function LocationWeatherCache()
             
             var temperatureMin = response.daily.data[0].temperatureMin;//Access to weather temperatureMin
             var temperatureMax = response.daily.data[0].temperatureMax;//Access to weather temperatureMax
-            var temperatureMinInCelsius = temperatureMin.toFixed(2) - 32 + " °C";
-            var temperatureMaxInCelsius = temperatureMax.toFixed(2) - 32 + " °C";
+            var temperatureMinInCelsius = temperatureMin - 32;
+            var temperatureMaxInCelsius = temperatureMax - 32;
             // Updates the 'Summary' on Index page
-            document.getElementById("weather"+index).innerHTML = "Min: " + temperatureMinInCelsius + ", Max: " + temperatureMaxInCelsius;
+            document.getElementById("weather"+index).innerHTML = "Min: " + temperatureMinInCelsius.toFixed(2) + " °C, Max: " + temperatureMaxInCelsius.toFixed(2) + " °C";
             
             // eg. icon = clear-day
             var icon = response.daily.data[0].icon;
@@ -183,20 +183,20 @@ function LocationWeatherCache()
             document.getElementById("summary").innerHTML = "Summary: " + summary;
             
             var temperatureMin = response.daily.data[0].temperatureMin//Access to weather temperatureMin
-            var temperatureMinInCelsius = temperatureMin.toFixed(2) - 32 + " °C";
-            document.getElementById("minimumTemperature").innerHTML = "Minimum Temperature: " + temperatureMinInCelsius;
+            var temperatureMinInCelsius = temperatureMin - 32;
+            document.getElementById("minimumTemperature").innerHTML = "Minimum Temperature: " + temperatureMinInCelsius.toFixed(2) + " °C";
             
             var temperatureMax = response.daily.data[0].temperatureMax//Access to weather temperatureMax
-            var temperatureMaxInCelsius = temperatureMax.toFixed(2) - 32 + " °C";
-            document.getElementById("maximumTemperature").innerHTML = "Maximum Temperature: " + temperatureMaxInCelsius;
+            var temperatureMaxInCelsius = temperatureMax - 32;
+            document.getElementById("maximumTemperature").innerHTML = "Maximum Temperature: " + temperatureMaxInCelsius.toFixed(2) + " °C";
             
             var humidity = response.daily.data[0].humidity//Access to weather humidity
-            var humidityAsPercent = humidity.toFixed(1)*100 + " %";
-            document.getElementById("humidity").innerHTML = "Humidity: " + humidityAsPercent;
+            var humidityAsPercent = humidity*100;
+            document.getElementById("humidity").innerHTML = "Humidity: " + humidityAsPercent.toFixed(1) + " %";
             
             var windSpeed = response.daily.data[0].windSpeed //Access to weather windSpeed
-            var windSpeedInKmperh = windSpeed.toFixed(1)*1.60934 + " km/h"
-            document.getElementById("windSpeed").innerHTML = "Wind Speed is: " + windSpeedInKmperh;
+            var windSpeedInKmperh = windSpeed*1.60934;
+            document.getElementById("windSpeed").innerHTML = "Wind Speed is: " + windSpeedInKmperh.toFixed(1) + " km/h";
             
         }
      
