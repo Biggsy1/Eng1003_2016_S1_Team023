@@ -4,6 +4,13 @@ var map, marker;
 
 loadPageContent()
 
+// Untested but hopeful
+function removeThisLocation(){
+    
+    locationIndex = localStorage.getItem(APP_PREFIX + "-selectedLocation");
+    
+    locationCacheInstance.removeLocationAtIndex(locationIndex);
+}
 
 // Index is sent from clicking on the Index page or straight after the save locations button
 
@@ -25,6 +32,9 @@ function sliderMoved(sliderValue){
     date.setTime(msecSince1970);
     var dateSimpleString = date.simpleDateString(); 
     var dateForForecastData = date.forecastDateString();
+    
+    // Store a date to be retrieved from the the cashe weather response
+    localStorage.setItem(APP_PREFIX + "-selectedDate", dateSimpleString);
     
     // Update the Heading based on this date
     document.getElementById("weatherheading").innerHTML = "Weather " + dateSimpleString;
@@ -50,6 +60,9 @@ function loadPageContent(){
     var date = new Date();
     var todaySimpleDate = date.simpleDateString();
     var todayForecastData = date.forecastDateString();
+    
+    // Store a date to be retrieved from the the cashe weather response
+    localStorage.setItem(APP_PREFIX + "-selectedDate", todaySimpleDate);
     
     // Updates the Heading
     document.getElementById("weatherheading").textContent = "Weather " + todaySimpleDate;

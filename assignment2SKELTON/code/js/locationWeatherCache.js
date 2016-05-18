@@ -83,15 +83,20 @@ function LocationWeatherCache()
     this.removeLocationAtIndex = function(index)
     {
         // Say locations = [A, B, C, D, E], we want to remove index=2 (location C) TESTED!
+        loadLocations();
         
         // Locations are shifted down in the array one by one
         for (var i = index; i < locationCacheInstance.length; i++)
             {
                 // A given location at index 'i' is replaced by the next location in array 
-                locationCacheInstance.locationAtIndex(i) = locationCacheInstance.locationAtIndex(i + 1);
+                locations[i] = locations[i + 1];
             }
         // Remove the last element of the locations array
         locations.pop();
+        
+        // Update the locations array in local storage
+        saveLocations(null, null, null, "removingLocation");
+        
     };
 
     // This method is used by JSON.stringify() to serialise (convert to String) this class.
@@ -138,13 +143,30 @@ function LocationWeatherCache()
     this.getWeatherAtIndexForDate = function(index, date, callback) {
         
         loadLocations();
+        // Converts forecast date to simple date
+        var simpleDate = date.substring(0,10);
         
-        // var time = date.forecastDateString();
+        var forecastAtLocationForDate = locations[index].forecasts["\"" + locations[index].latitude + "," + locations[index].longitude + "," + simpleDate + "\""];
         
-        var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
-        var script = document.createElement('script');
-        script.src = URL + locations[index].latitude + "," + locations[index].longitude + "," + date + "?callback="+callback;
-        document.body.appendChild(script);
+        console.log(localStorage.getItem(forecastAtLocationForDate));
+        
+        // Checks local storage for a stored forecast for that location at a date, if none get that forecast from the forecast API
+        if (forecastAtLocationForDate !== null && forecastAtLocationForDate !== undefined)
+        {
+            // May need to parse the data in local storage!!!
+            
+            // Send the stored response to the weatherResponse method
+            locationCacheInstance.weatherResponse(forecastAtLocationForDate);
+        }
+        else 
+        {
+            // var time = date.forecastDateString();
+
+            var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
+            var script = document.createElement('script');
+            script.src = URL + locations[index].latitude + "," + locations[index].longitude + "," + date + "?callback="+callback;
+            document.body.appendChild(script);
+        }
     
     };
     
@@ -155,9 +177,7 @@ function LocationWeatherCache()
     // weather request.
     //
     this.weatherResponse = function(response) {
-        // Will need an if loop to check if forecast is stored in local stoage already, if not call the weather api! (otherwise it will frequently call on the Weather API)
-
-        // May need to send with less decimal places??
+       
         // Get index of the location
         var index = indexForLocation(response.latitude, response.longitude);
         
@@ -198,6 +218,26 @@ function LocationWeatherCache()
             var windSpeedInKmperh = windSpeed*1.60934;
             document.getElementById("windSpeed").innerHTML = "Wind Speed is: " + windSpeedInKmperh.toFixed(1) + " km/h";
             
+            // update that forecast in locations array for that date with this info 
+            
+            var date = localStorage.getItem(APP_PREFIX + "-selectedDate");
+            /*
+            locations[index].forecasts["\"" + locations[index].latitude + "," + locations[index].longitude + "," + date + "\""] = response;
+            
+            var forecastAtLocationForDate = locations[index].forecasts["\"" + locations[index].latitude + "," + locations[index].longitude + "," + date + "\""];
+            forecastAtLocationForDate = response;
+            */
+            console.log(response);
+            
+            var key = "\"" + locations[index].latitude + "," + locations[index].longitude + "," + date + "\"";
+            locations[index].forecasts[key] = response;
+            /*
+            Object.defineProperty(locations[index].forecasts, "\"" + locations[index].latitude + "," + locations[index].longitude + "," + date + "\"", response);
+            
+            locations[index].forecasts["\"" + locations[index].latitude + "," + locations[index].longitude + "," + date + "\""] = response;
+            */
+            // save to local storage (Or can no parametres be sent???)
+            saveLocations(null, null, null, "updatingForecastOnly");
         }
      
     };
@@ -251,31 +291,27 @@ function loadLocations()
 //
 // This function is called each time to "update" the locations array in Local Storage. 
 // Basically needs to access what is already in local storage --> add this new location to the end --> store the locations array over the top of the old array (or delete old and save new)
-function saveLocations(latitude, longitude, nickname)
+function saveLocations(latitude, longitude, nickname, condition)
 {
-    loadLocations();
     
-    var locationIndex = locationCacheInstance.addLocation(latitude, longitude, nickname);
+    // If a new location is being saved it must be added to the end of the locations array
+    if (condition === "saveNewLocation")
+    { 
+        // Get access to the locations array
+        loadLocations();
+        
+        var locationIndex = locationCacheInstance.addLocation(latitude, longitude, nickname);
+    };
     
+    // Save the locations array to local Storage
     var arrayToBeSavedToLocalStorageString = JSON.stringify(locationCacheInstance);
-    
     localStorage.setItem(APP_PREFIX, arrayToBeSavedToLocalStorageString);
-
-    // Should recieve info from Addlocationspage
-    // locationCacheInstance.Addlocation of this info
-    // Save the locations array to local storage overwritting or delete and add a new one
-    console.log("SAVED LOCVATION");
-    // Load the Index page.
-    window.location = "index.html";
-    /*
-    // ADDED THIS!!!!
-    var locationIndexString = JSON.stringify(locationIndex);
-    updateMainList(locationIndexString, arrayToBeSavedToLocalStorage);
     
-    window.location = "viewlocation.html";
-    viewLocation(locationIndex); 
-    */
-    // Should Return the user to the main page potentially??
+    //if the slider is moved we want to REMAIN on the View Location Page
+    if (condition === "saveNewLocation" || condition === "removingLocation")
+    { 
+          window.location = "index.html";
+    };
 }
 
 
