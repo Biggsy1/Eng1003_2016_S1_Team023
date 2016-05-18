@@ -84,9 +84,10 @@ function LocationWeatherCache()
     {
         // Say locations = [A, B, C, D, E], we want to remove index=2 (location C) TESTED!
         loadLocations();
+        var indexAsNumber = Number(index);
         
         // Locations are shifted down in the array one by one
-        for (var i = index; i < locationCacheInstance.length; i++)
+        for (var i = indexAsNumber; i < locationCacheInstance.length; i++)
             {
                 // A given location at index 'i' is replaced by the next location in array 
                 locations[i] = locations[i + 1];
