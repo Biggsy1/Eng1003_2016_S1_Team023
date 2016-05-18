@@ -162,7 +162,7 @@ function LocationWeatherCache()
         var index = indexForLocation(response.latitude, response.longitude);
         
         // 1) Main Page use: To get Weather Summary and Icon
-        if (document.getElementById("locationList") !== null){
+        if (document.getElementById("headerBarTitleMain") !== null){
             
             var temperatureMin = response.daily.data[0].temperatureMin;//Access to weather temperatureMin
             var temperatureMax = response.daily.data[0].temperatureMax;//Access to weather temperatureMax
