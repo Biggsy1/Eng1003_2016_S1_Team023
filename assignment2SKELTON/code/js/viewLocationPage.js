@@ -11,22 +11,28 @@ loadPageContent()
 function sliderMoved(sliderValue){
     // the new value of slider will mean a new date
     
-    // var sliderValue = document.getElementById("slider").getAttribute("value");
-    var numberOfDays = 30 - sliderValue;
+    // The number of days before today is 30 less the value of the slide (Remembering the value starts at 30)
+    var numberOfDaysBeforeToday = 30 - sliderValue;
     
+    // Creates a new date and gets the ms since 1970
     var date = new Date();
     var msecSince1970 = date.getTime();
     console.log(msecSince1970);
-
-    msecSince1970 += -86400000*numberOfDays;
+    
+    
+    // Use the ms since 1970 and take away the number of ms in a day by number of days to have the date for previous days
+    msecSince1970 += -86400000*numberOfDaysBeforeToday;
     date.setTime(msecSince1970);
+    var dateSimpleString = date.simpleDateString(); 
+    var dateForForecastData = date.forecastDateString();
     
-    // Need to have access to [YYYY]-[MM]-[DD] and change the Heading Title!
-    // Unsure how this date will go in the function!!!
+    // Update the Heading based on this date
+    document.getElementById("weatherheading").innerHTML = "Weather " + dateSimpleString;
     
+    locationIndex = localStorage.getItem(APP_PREFIX + "-selectedLocation");
     
-    // this new date is sent to the getWeatherAtIndexForDate 
-    locationCacheInstance.getWeatherAtIndexForDate(locationIndexOfCurrentLocation, date, "locationCacheInstance.weatherResponse");
+    // This info is send to getWeatherAtIndexForDate and hence the Forecast API
+    locationCacheInstance.getWeatherAtIndexForDate(locationIndex, dateForForecastData, "locationCacheInstance.weatherResponse");
     
 }
 
