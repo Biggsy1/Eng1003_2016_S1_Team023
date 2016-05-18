@@ -187,8 +187,8 @@ function LocationWeatherCache()
             
             var temperatureMin = response.daily.data[0].temperatureMin;//Access to weather temperatureMin
             var temperatureMax = response.daily.data[0].temperatureMax;//Access to weather temperatureMax
-            var temperatureMinInCelsius = temperatureMin - 32;
-            var temperatureMaxInCelsius = temperatureMax - 32;
+            var temperatureMinInCelsius = ((temperatureMin - 32)*5)/9;
+            var temperatureMaxInCelsius = ((temperatureMax - 32)*5)/9;
             // Updates the 'Summary' on Index page
             document.getElementById("weather"+index).innerHTML = "Min: " + temperatureMinInCelsius.toFixed(2) + " °C, Max: " + temperatureMaxInCelsius.toFixed(2) + " °C";
             
@@ -204,11 +204,11 @@ function LocationWeatherCache()
             document.getElementById("summary").innerHTML = "Summary: " + summary;
             
             var temperatureMin = response.daily.data[0].temperatureMin//Access to weather temperatureMin
-            var temperatureMinInCelsius = temperatureMin - 32;
+            var temperatureMinInCelsius = ((temperatureMin - 32)*5)/9;
             document.getElementById("minimumTemperature").innerHTML = "Minimum Temperature: " + temperatureMinInCelsius.toFixed(2) + " °C";
             
             var temperatureMax = response.daily.data[0].temperatureMax//Access to weather temperatureMax
-            var temperatureMaxInCelsius = temperatureMax - 32;
+            var temperatureMaxInCelsius = ((temperatureMax - 32)*5)/9;
             document.getElementById("maximumTemperature").innerHTML = "Maximum Temperature: " + temperatureMaxInCelsius.toFixed(2) + " °C";
             
             var humidity = response.daily.data[0].humidity//Access to weather humidity
