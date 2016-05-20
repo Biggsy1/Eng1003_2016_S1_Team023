@@ -29,11 +29,11 @@
               <div class="mdl-cell">
                 <!--   Main page content here:   -->  
 
-                    <!-- First text field -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                     <!-- First text field -->
+                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                       <input class="mdl-textfield__input" type="text" id="field1" onKeyUp="delay()">
                         <label class="mdl-textfield__label" for="addr1">Enter a Town or Address...</label>
-                    </div>
+                     </div>
 
                       <!-- Second text field -->
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -41,17 +41,14 @@
                             <label class="mdl-textfield__label" for="addr1">Enter a nickname for this location...</label>
                       </div>
                   
-                     <!-- Map -->
-                      
+                      <!-- Map -->
                       <div id="map" style="height:  196px; width: 100%;">Loading Map...</div>
     
-            
                   
                       <!-- 'Save Location' button -->
                       <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="saveLocationButton" onclick="saveButtonClicked()">
                       Save Location
                       </button>
-              
                   
               </div>
             </div>
@@ -61,7 +58,6 @@
         <!--   JavaScript files:   -->
         <script src="js/locationWeatherCache.js"></script>
         <script src="js/addlocationPage.js"></script>
-        <script src="js/mainPage.js"></script>
         <script async defer
   src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=&amp;callback=initMap">
     </script>
