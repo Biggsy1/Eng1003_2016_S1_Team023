@@ -1,6 +1,6 @@
 /*
-* Purpose: This file is designed to further details of forecasts and allow the
-*          easy removable of the location
+* Purpose: This file is designed to provide further details of forecasts and allow for
+*          the easy removable of the location
 * Organization/Team: 301
 * Author: Bray Morrow
 * Last Modified: 20 May 2016
