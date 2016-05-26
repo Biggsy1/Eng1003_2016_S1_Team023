@@ -3,8 +3,8 @@
 *          as well as see further details of forecasts
 * Organization/Team: 301
 * Author: Bray Morrow
-* Last Modified: 20 May 2016
-* Version: 2.0.1
+* Last Modified: 23 May 2016
+* Version: 1.0.1
 */
 
 // Source: Prac 9 Flights response
@@ -14,6 +14,9 @@ function updateMainList()
     var locationsArray = loadLocations();
     var listHTML = "";
     var listOfLocations = document.getElementById("locationList"); 
+    
+    // Ensure the Current Location remains on the page.
+    listHTML += "<li class=\"mdl-list__item mdl-list__item--two-line\" onclick=\"viewLocation(-1)\"> <span class=\"mdl-list__item-primary-content\"> Current Location </span> </li>"      
     
     // For each element in the array, dynamically create a row in the table.
     for (var i=0; i < locationsArray.length; i++)

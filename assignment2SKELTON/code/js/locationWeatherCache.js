@@ -3,8 +3,8 @@
 *          in Local Storage
 * Organization/Team: 301
 * Author: Bray Morrow
-* Last Modified: 20 May 2016
-* Version: 3.0.4
+* Last Modified: 24 May 2016
+* Version: 1.0.1
 */
 
 // Returns a date in the format "YYYY-MM-DD".
@@ -94,7 +94,7 @@ function LocationWeatherCache()
         var indexAsNumber = Number(index);
         
         // Locations are shifted down in the array one by one starting from the location to be removed.
-        for (var i = indexAsNumber; i < locationCacheInstance.length; i++)
+        for (var i = indexAsNumber; i < locations.length; i++)
         {
             // A given location at index 'i' is replaced by the next location in array.
             locations[i] = locations[i + 1];
@@ -148,29 +148,42 @@ function LocationWeatherCache()
     //
     this.getWeatherAtIndexForDate = function(index, date, callback) 
     {
-        loadLocations();
-        // Converts forecast date to simple date.
-        var simpleDate = date.substring(0,10);
-        
-        // A 'Key' for a forecast at a location for a date.
-        var forecastAtLocationForDate = locations[index].forecasts["\"" + locations[index].latitude + "," + locations[index].longitude + "," + simpleDate + "\""];
-        
-        // Checks local storage for a stored forecast for that location at a date (using the 'Key'),
-        // if not available, get that forecast from the forecast API.
-        if (forecastAtLocationForDate !== null && forecastAtLocationForDate !== undefined)
+        // If it's current location (index = -1), immediately call the forecast API.
+        if (index === "-1")
         {
-            // Send the locally stored response to the weatherResponse method.
-            locationCacheInstance.weatherResponse(forecastAtLocationForDate);
+            // 'callback' in this instance is the latitude and longitude
+            var latLngForUrl = localStorage.getItem(APP_PREFIX + "-currentLocation");
+            
+            var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
+            var script = document.createElement('script');
+            script.src = URL + latLngForUrl + "," + date + "?callback="+callback;
+            document.body.appendChild(script);     
         }
         else 
         {
-            // The call to the forecast API. Source: 'Prac 9 Flights Response'
-            var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
-            var script = document.createElement('script');
-            script.src = URL + locations[index].latitude + "," + locations[index].longitude + "," + date + "?callback="+callback;
-            document.body.appendChild(script);
+            loadLocations();
+            // Converts forecast date to simple date.
+            var simpleDate = date.substring(0,10);
+
+            // A 'Key' for a forecast at a location for a date.
+            var forecastAtLocationForDate = locations[index].forecasts["\"" + locations[index].latitude + "," + locations[index].longitude + "," + simpleDate + "\""];
+
+            // Checks local storage for a stored forecast for that location at a date (using the 'Key'),
+            // if not available, get that forecast from the forecast API.
+            if (forecastAtLocationForDate !== null && forecastAtLocationForDate !== undefined)
+            {
+                // Send the locally stored response to the weatherResponse method.
+                locationCacheInstance.weatherResponse(forecastAtLocationForDate);
+            }
+            else 
+            {
+                // The call to the forecast API. Source: 'Prac 9 Flights Response'
+                var URL = "https://api.forecast.io/forecast/988329b972a83f6343eb72db35594fe6/";
+                var script = document.createElement('script');
+                script.src = URL + locations[index].latitude + "," + locations[index].longitude + "," + date + "?callback="+callback;
+                document.body.appendChild(script);
+            }
         }
-    
     };
     
     // This is a callback function passed to forecast.io API calls.
@@ -232,16 +245,19 @@ function LocationWeatherCache()
             var windSpeedInKmperh = windSpeed*MILES_TO_KM;
             document.getElementById("windSpeed").innerHTML = "Wind Speed is: " + windSpeedInKmperh.toFixed(1) + " km/h";
             
-            
-            // Retrieve the simple date stored in local storage for location currently being viewed.
-            var date = localStorage.getItem(APP_PREFIX + "-selectedDate");
-            
-            // Store this data into the locations array.
-            var key = "\"" + locations[index].latitude + "," + locations[index].longitude + "," + date + "\"";
-            locations[index].forecasts[key] = response;
-           
-            // Updates locations array stored in local storage.
-            saveLocations(null, null, null, "updatingForecastOnly");
+            // If its current location, do not save to local storage.
+            if (index !== -1)
+            {
+                // Retrieve the simple date stored in local storage for location currently being viewed.
+                var date = localStorage.getItem(APP_PREFIX + "-selectedDate");
+
+                // Store this data into the locations array.
+                var key = "\"" + locations[index].latitude + "," + locations[index].longitude + "," + date + "\"";
+                locations[index].forecasts[key] = response;
+
+                // Updates locations array stored in local storage.
+                saveLocations(null, null, null, "updatingForecastOnly");
+            }
          }
      
      };

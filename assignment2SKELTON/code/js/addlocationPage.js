@@ -2,8 +2,8 @@
 * Purpose: This file is designed to add a new location to the user's favourites list
 * Organization/Team: 301
 * Author: Bray Morrow
-* Last Modified: 20 May 2016
-* Version: 2.0.2
+* Last Modified: 23 May 2016
+* Version: 1.0.1
 */
 
 // Set Global variables.
