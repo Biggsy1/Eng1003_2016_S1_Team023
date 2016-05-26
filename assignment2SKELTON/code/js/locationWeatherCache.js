@@ -103,7 +103,7 @@ function LocationWeatherCache()
         // Remove the last element of the locations array after all locations have moved one.
         locations.pop();
         
-        // Update the locations array saved in local storage.
+        // Updates the locations array saved in local storage.
         saveLocations(null, null, null, "removingLocation");
         
     };
@@ -159,7 +159,7 @@ function LocationWeatherCache()
         // if not available, get that forecast from the forecast API.
         if (forecastAtLocationForDate !== null && forecastAtLocationForDate !== undefined)
         {
-            // Send the locally stored response to the weatherResponse method.
+            // Sends the locally stored response to the weatherResponse method.
             locationCacheInstance.weatherResponse(forecastAtLocationForDate);
         }
         else 
