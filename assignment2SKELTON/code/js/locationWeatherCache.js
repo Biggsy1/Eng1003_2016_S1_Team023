@@ -148,7 +148,7 @@ function LocationWeatherCache()
     //
     this.getWeatherAtIndexForDate = function(index, date, callback) 
     {
-<<<<<<< HEAD
+
         // If it's current location (index = -1), immediately call the forecast API.
         if (index === "-1")
         {
@@ -159,7 +159,7 @@ function LocationWeatherCache()
             var script = document.createElement('script');
             script.src = URL + latLngForUrl + "," + date + "?callback="+callback;
             document.body.appendChild(script);     
-=======
+
         loadLocations();
         // Converts the forecast date to simple date.
         var simpleDate = date.substring(0,10);
@@ -173,7 +173,6 @@ function LocationWeatherCache()
         {
             // Sends the locally stored response to the weatherResponse method.
             locationCacheInstance.weatherResponse(forecastAtLocationForDate);
->>>>>>> origin/master
         }
         else 
         {
