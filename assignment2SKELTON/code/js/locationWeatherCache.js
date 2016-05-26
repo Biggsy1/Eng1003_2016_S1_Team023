@@ -31,7 +31,7 @@ Date.prototype.forecastDateString = function() {
 
 
 // Code for LocationWeatherCache class and other shared code.
-// Set global variable to access the Cashe.
+// Set global variable to access the Cache.
 var locationCacheInstance = new LocationWeatherCache();
 
 // Prefix to use for Local Storage.
