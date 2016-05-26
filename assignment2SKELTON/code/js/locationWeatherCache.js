@@ -127,14 +127,14 @@ function LocationWeatherCache()
     this.initialiseFromPDO = function(locationWeatherCachePDO) 
     {
         // This fills the current instance with the local storage version of the locations array.
-        // Note: locationWeatherCachePDO is an array.
+        // Note that locationWeatherCachePDO is an array.
         locations = JSON.parse(locationWeatherCachePDO); 
         
         return locations;
     };
 
     // Request weather for the location at the given index for the
-    // specified date.  'date' should be JavaScript Date instance.
+    // specified date,  'date' should be JavaScript Date instance.
     //
     // This method doesn't return anything, but rather calls the 
     // callback function when the weather object is available. This
@@ -149,7 +149,7 @@ function LocationWeatherCache()
     this.getWeatherAtIndexForDate = function(index, date, callback) 
     {
         loadLocations();
-        // Converts forecast date to simple date.
+        // Converts the forecast date to simple date.
         var simpleDate = date.substring(0,10);
         
         // A 'Key' for a forecast at a location for a date.
