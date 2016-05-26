@@ -31,7 +31,7 @@ Date.prototype.forecastDateString = function() {
 
 
 // Code for LocationWeatherCache class and other shared code.
-// Set global variable to access the Cashe.
+// Set global variable to access the Cache.
 var locationCacheInstance = new LocationWeatherCache();
 
 // Prefix to use for Local Storage.
@@ -103,7 +103,7 @@ function LocationWeatherCache()
         // Remove the last element of the locations array after all locations have moved one.
         locations.pop();
         
-        // Update the locations array saved in local storage.
+        // Updates the locations array saved in local storage.
         saveLocations(null, null, null, "removingLocation");
         
     };
@@ -127,14 +127,14 @@ function LocationWeatherCache()
     this.initialiseFromPDO = function(locationWeatherCachePDO) 
     {
         // This fills the current instance with the local storage version of the locations array.
-        // Note: locationWeatherCachePDO is an array.
+        // Note that locationWeatherCachePDO is an array.
         locations = JSON.parse(locationWeatherCachePDO); 
         
         return locations;
     };
 
     // Request weather for the location at the given index for the
-    // specified date.  'date' should be JavaScript Date instance.
+    // specified date,  'date' should be JavaScript Date instance.
     //
     // This method doesn't return anything, but rather calls the 
     // callback function when the weather object is available. This
@@ -148,6 +148,7 @@ function LocationWeatherCache()
     //
     this.getWeatherAtIndexForDate = function(index, date, callback) 
     {
+<<<<<<< HEAD
         // If it's current location (index = -1), immediately call the forecast API.
         if (index === "-1")
         {
@@ -158,6 +159,21 @@ function LocationWeatherCache()
             var script = document.createElement('script');
             script.src = URL + latLngForUrl + "," + date + "?callback="+callback;
             document.body.appendChild(script);     
+=======
+        loadLocations();
+        // Converts the forecast date to simple date.
+        var simpleDate = date.substring(0,10);
+        
+        // A 'Key' for a forecast at a location for a date.
+        var forecastAtLocationForDate = locations[index].forecasts["\"" + locations[index].latitude + "," + locations[index].longitude + "," + simpleDate + "\""];
+        
+        // Checks local storage for a stored forecast for that location at a date (using the 'Key'),
+        // if not available, get that forecast from the forecast API.
+        if (forecastAtLocationForDate !== null && forecastAtLocationForDate !== undefined)
+        {
+            // Sends the locally stored response to the weatherResponse method.
+            locationCacheInstance.weatherResponse(forecastAtLocationForDate);
+>>>>>>> origin/master
         }
         else 
         {

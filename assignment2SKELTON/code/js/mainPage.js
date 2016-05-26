@@ -8,7 +8,7 @@
 */
 
 // Source: Prac 9 Flights response
-// This function updates the rows in the Main Page table.
+// This function updates the rows in the Main Page table. Add more possible functions to change the order of each row, if there is enough time
 function updateMainList()
 {
     var locationsArray = loadLocations();
